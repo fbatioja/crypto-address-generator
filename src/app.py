@@ -2,6 +2,7 @@ from flask import Flask
 from flask_restful import Api
 
 from resources.address import Address, Addresses
+from resources.crypto import Crypto, Cryptos
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
@@ -15,6 +16,9 @@ def create_database():
 
 api.add_resource(Addresses, "/addresses")
 api.add_resource(Address, "/<string:crypto>/address/<string:address_id>")
+
+api.add_resource(Cryptos, "/cryptos")
+api.add_resource(Crypto, "/crypto/<string:crypto_id>")
 
 if __name__ == "__main__":
     from sql_alchemy import database
