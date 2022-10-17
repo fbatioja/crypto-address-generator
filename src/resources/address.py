@@ -1,5 +1,6 @@
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
 from models.address import AddressModel
+from utils.generate_address import generate_address
 
 class Addresses(Resource):
     def get(self):
@@ -7,28 +8,24 @@ class Addresses(Resource):
 
 
 class Address(Resource):
-    attributes = reqparse.RequestParser()
-    attributes.add_argument("crypto")
-    attributes.add_argument("address")
-
-    def get(self, address_id):
-        address = Address.find_address(address_id)
+    def get(self, crypto, address_id):
+        address = AddressModel.find_address(address_id)
 
         if address:
-            return address
+            return address.json()
 
         return {
             "message": "Address not found",
         }, 404  # not found
 
-    def post(self):
-        data = Address.attributes.parse_args()
+    def post(self, crypto):
+        _crypto = crypto.upper()
+        _address = generate_address(_crypto)
 
         new_address = AddressModel(
-            **data,
+            crypto = _crypto,
+            address = _address
         )
-
-        print(new_address.json())
 
         try:
             new_address.save_address()

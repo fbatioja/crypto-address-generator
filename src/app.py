@@ -14,7 +14,7 @@ def create_database():
     database.create_all()
 
 api.add_resource(Addresses, "/addresses")
-api.add_resource(Address, "/address")
+api.add_resource(Address, "/<string:crypto>/address/<string:address_id>")
 
 if __name__ == "__main__":
     from sql_alchemy import database
