@@ -13,7 +13,7 @@ api = Api(app)
 def create_database():
     database.create_all()
 
-api.add_resource(Addresses, "/addresses")
+api.add_resource(Addresses, "/<string:crypto>/addresses")
 api.add_resource(Address, "/<string:crypto>/address/<string:address_id>")
 
 if __name__ == "__main__":
