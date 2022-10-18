@@ -19,13 +19,22 @@ class AddressModel(database.Model):
         }
     
     @classmethod
-    def find_address(cls, address_id):
-        address = cls.query.filter_by(address_id=address_id).first()
+    def find_address(cls, address_id, crypto):
+        address = cls.query.filter_by(address_id=address_id, crypto=crypto).first()
 
         if not address:
             return None
 
         return address
+    
+    @classmethod
+    def find_address_by_crypto(cls, crypto):
+        addresses = cls.query.filter_by(crypto=crypto)
+
+        if not addresses:
+            return None
+
+        return addresses
     
     def save_address(self):
         database.session.add(self)
